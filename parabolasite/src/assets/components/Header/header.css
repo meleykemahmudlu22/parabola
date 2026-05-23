@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+}
+.headercontainer{
+    background-color: black;
+    display: flex;
+    padding: 40px 10px;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #c9a96e;
+}
+.parabolalogo h1{
+    color: #c9a96e;
+    letter-spacing: 20px;
+    font-weight: 100;
+    padding: 10px;
+}
+.parabolanavigation nav ul{
+    display: flex;
+    font-family: 'Montserrat', sans-serif;
+    list-style-type: none;
+    justify-content: space-around;
+    font-size: 18px;
+   /* transition:transform  0.3s ease;
+   cursor: pointer; */
+  
+}
+.parabolanavigation nav ul li{
+    color: #c9a96e;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    transition:transform  0.6s ease;
+    cursor: pointer;
+  
+}
+.parabolanavigation nav ul li:hover{
+   transform: scale(1.2);
+   color: rgb(214, 213, 213);
+  
+}
+.parabolanavigation {
+   
+   width: 46%;
+}
