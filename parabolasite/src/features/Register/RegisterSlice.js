@@ -13,11 +13,11 @@ const registerSlice=createSlice({
             state.loading=false
             state.user= action.payload
         },
-        rehisterFailure:(state,action)=>{
+        registerFailure:(state,action)=>{
             state.loading=false
-            state.user=action.payload
+            state.error=action.payload
         }
     }
 })
-export const{registerStart,registerSucces,rehisterFailure}=registerSlice.actions
+export const{registerStart,registerSucces,registerFailure}=registerSlice.actions
 export default registerSlice.reducer
