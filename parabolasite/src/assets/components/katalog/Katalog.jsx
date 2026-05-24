@@ -1,7 +1,7 @@
 import React from 'react'
 import "./katalog.css"
 
-const Katalog = () => {
+function Katalog  ()  {
   return (
     <div className='CatalogContainer'>
       <div className="catalogcontainertext">
