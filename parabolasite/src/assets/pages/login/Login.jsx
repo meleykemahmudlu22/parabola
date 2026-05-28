@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { loginFailure, loginStart, loginSucces } from '../../../features/Login/LoginSlice'
 import axios from 'axios'
 import { notification } from "antd";
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header';
 import "./login.css"
 
@@ -84,7 +84,10 @@ return
               />
             </div>
             <div className="forgotpassword">
-              <button>Forgot Password ?</button>
+              <Link to="/forgot">
+               <button>Forgot Password ?</button>
+              </Link>
+             
             </div>
 
             <div className="formbtn">
@@ -94,7 +97,10 @@ return
             </div>
           
           <div className="createaccount">
-            <button>Create New Account</button>
+            <Link to="/register">
+             <button>Create New Account</button>
+            </Link>
+           
           </div>
 
            
