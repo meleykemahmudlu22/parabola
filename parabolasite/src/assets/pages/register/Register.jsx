@@ -38,7 +38,7 @@ function Register() {
 
     dispatch(registerStart())
     try {
-      // 1. Mövcud userləri çək
+   
       let users = await axios.get("https://678e58c7a64c82aeb1200f8c.mockapi.io/new")
       let exists = users.data.find(u => u.email === email)
 
@@ -51,11 +51,13 @@ function Register() {
         return
       }
 
-      // 2. Əgər email mövcud deyilsə → yeni user yarat
+    
       let { data } = await axios.post(
         "https://678e58c7a64c82aeb1200f8c.mockapi.io/new",
         { email, password }
       )
+
+
 
       dispatch(registerSucces(data))
 

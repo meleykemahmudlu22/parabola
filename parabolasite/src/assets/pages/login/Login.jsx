@@ -92,7 +92,7 @@ return
 
             <div className="formbtn">
               <button type="submit" disabled={loading}>
-                {loading ? "loading..." : "register"}
+                {loading ? "loading..." : "Login"}
               </button>
             </div>
           
