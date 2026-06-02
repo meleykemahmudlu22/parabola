@@ -5,6 +5,7 @@
   background-color: black;
   padding: 60px 0;
   color: aliceblue;
+  
 }
 
 .catalogcontainertext {
@@ -20,6 +21,7 @@
   
 }
 .TopText p{
+  
     font-size: 27px;
       font-weight: 100;
 }
