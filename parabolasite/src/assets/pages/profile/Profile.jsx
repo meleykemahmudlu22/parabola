@@ -47,7 +47,7 @@ const Profile = () => {
         </div>
 
         {submitted && (
-          <div className="user-info">
+          <div className="user-infos">
             <h3>Saxlanılmış məlumatlar</h3>
             <div className="user-info-text">
               <div className="infotextone">

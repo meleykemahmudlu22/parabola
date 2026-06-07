@@ -86,7 +86,7 @@ function Register() {
     <>
       <Header />
       <div className='FormContainer'>
-        <form onSubmit={handleRegister}>
+        <form className='formdata' onSubmit={handleRegister}>
           <div className="FormText">
             <h2>Parabola</h2>
             <p>Create a new account</p>

@@ -78,12 +78,12 @@
     padding: 20px;
 }
 
-.user-info {
-    border: 1px solid #7a7570;
-    width: 495px;
+.user-infos {
+    border: 1px solid #77716c;
+    width: 531px;
     padding: 20px 15px;
     color: rgb(109, 106, 106);
-    height: 250px;
+    height: 306px;
     display: flex;
     flex-direction: column;
     background-color: #0e0e0e;

@@ -5,11 +5,13 @@ import "./clothing.css"
 import AOS from "aos"
 import { useSelector } from "react-redux"
 import "aos/dist/aos.css"
+import Avatar from '../Avatar/Avatar'
 
 function Clothing() {
   const [products, setProducts] = useState([])
+  const [showModal, setShowModal] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState(null)
   const profile = useSelector((state) => state.profile) 
-
 
   useEffect(() => {
     async function getProducts() {
@@ -23,18 +25,25 @@ function Clothing() {
     getProducts()
   }, [])
 
-  
   const calculateMatch = (user, product) => {
     let total = Object.keys(user).length
     let matched = 0
+    let matchedFields = []
+    let unmatchedFields = []
 
     for (let key in user) {
-      if (user[key] && product[key] && user[key] === product[key]) {
-        matched++
+      if (user[key] && product[key]) {
+        if (user[key] === product[key]) {
+          matched++
+          matchedFields.push(key)   
+        } else {
+          unmatchedFields.push(key) 
+        }
       }
     }
 
-    return Math.round((matched / total) * 100)
+    const percent = Math.round((matched / total) * 100)
+    return { percent, matchedFields, unmatchedFields }
   }
 
   useEffect(() => {
@@ -51,11 +60,20 @@ function Clothing() {
         <h1>Geyimlər</h1>
         <div className="cothingboxcontainer">
           {products.map(item => {
-            const matchPercent = calculateMatch(profile, item)
+            const { percent, matchedFields, unmatchedFields } = calculateMatch(profile, item)
             return (
               <div key={item.id} className="cothingbox">
                 <div className="colorbtn">
                   <button style={{ backgroundColor: item.color }}></button>
+                  {percent > 0 && (
+                    <span 
+                      className={`match-badge ${
+                        percent >= 70 ? "high" : percent >= 40 ? "medium" : "low"
+                      }`}
+                    >
+                      {percent}%
+                    </span>
+                  )}
                 </div>
                 <div className="cothingimg">
                   <img 
@@ -66,28 +84,122 @@ function Clothing() {
                 <div className="cothingtext">
                   <div className="cothingtoptext">
                     <h3>{item.name}</h3>
-                    
-                    <span 
-                      className={`match-badge ${
-                        matchPercent >= 70 ? "high" : matchPercent >= 40 ? "medium" : "low"
-                      }`}
-                    >
-                      Uyğunluq: {matchPercent}%
-                    </span>
                   </div>
+
+                  {/* {percent > 0 && (
+                    <div className="match-details">
+                      <p><strong>Uyğun gələnlər:</strong> {matchedFields.join(", ") || "Yoxdur"}</p>
+                      <p><strong>Uyğun gəlməyənlər:</strong> {unmatchedFields.join(", ") || "Yoxdur"}</p>
+                    </div>
+                  )} */}
+
                   <div className="cothingbtn">
-                    <button></button>
-                    <button></button>
-                    <button>{item.style || "Rəsmi"}</button>
+                    <button>{item.size}</button>
+                    <button>{item.gender}</button>
+                    <button>{item.model}</button>
+                  
                   </div>
                   <div className="cothingbutton">
-                    <button>Sına <GoArrowRight /></button>
+                    <button onClick={() => { setSelectedProduct(item); setShowModal(true) }}>
+                      Sına <GoArrowRight />
+                    </button>
                   </div>
                 </div>
               </div>
             )
           })}
         </div>
+
+       
+        {showModal && selectedProduct && (
+          <div className="modal-overlay">
+            <div className="modal-container">
+            
+              <div className="modal-header">
+                <h2 className="modal-title">Uyğunluq Analizi</h2>
+                <button 
+                  className="modal-close"  
+                  aria-label="Bağla"
+                  onClick={() => setShowModal(false)}
+                >
+                  ×
+                </button>
+              </div>
+
+            
+              <div className="modal-body">
+              
+                <div className="modal-left">
+                 <Avatar
+
+    topColor={selectedProduct.topColor}        
+
+    bottomColor={selectedProduct.bottomColor}                    
+
+    skinColor="#d4b896"                     
+    size={180}                               
+
+  />
+                  <div className="score">
+                    <div className="score-number">
+                      {calculateMatch(profile, selectedProduct).percent}%
+                    </div>
+                    <div className="score-label">UYGUNDUR</div>
+                  </div>
+
+                  <ul className="check-list">
+                    {calculateMatch(profile, selectedProduct).matchedFields.map(field => (
+                      <li key={field}>
+                        <span className="check">✓</span>
+                        <span className="check-text">{field} uyğundur</span>
+                      </li>
+                    ))}
+                    {calculateMatch(profile, selectedProduct).unmatchedFields.map(field => (
+                      <li key={field}>
+                        <span className="checknot-match">✗</span>
+                        <span  className="check-textnot-match">{field} uyğun deyil</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+           
+                <div className="modal-right">
+                  <h3 className="product-title">{selectedProduct.name}</h3>
+
+                  <div className="filter-buttons">
+                    <button className="filter-btn">{selectedProduct.size}</button>
+                    <button className="filter-btn">{selectedProduct.gender}</button>
+                    <button className="filter-btn">{selectedProduct.model}</button>
+                    <button className="filter-btn">{selectedProduct.bigsize}</button>
+                    {/* <button className="filter-btn active">{selectedProduct.color}</button> */}
+                  </div>
+
+                  <div className="section">
+              <div className="section-label">RƏNG KOMBİNASİYASI</div>
+              <div className="color-row">
+                <span className="color-dot" style={{ background: "#4A90C2" }} />
+                <span className="color-name">göy</span>
+                <span className="plus">+</span>
+                <span className="color-dot" style={{ background: "#A0A0A0" }} />
+                <span className="color-name">boz</span>
+                <span className="plus">+</span>
+                <span className="color-dot" style={{ background: "#EDE2C8" }} />
+                <span className="color-name">krem</span>
+              </div>
+            </div>
+
+                  <div className="section">
+                    <div className="section-label">STİL TÖVSİYƏSİ</div>
+                    <div className="recommendation">
+                      {selectedProduct.recommendation || "Bu geyimi uyğun aksesuarlarla kombin edin."}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

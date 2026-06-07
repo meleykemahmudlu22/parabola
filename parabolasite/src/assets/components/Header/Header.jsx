@@ -1,8 +1,12 @@
 import React from 'react'
+import { IoMdMenu } from "react-icons/io";
 import "./header.css"
 import { Link } from 'react-router-dom'
 
-function Header  ()  {
+function Header  () {
+  function menutoggle (){
+    document.getElementById("menyu").classList.toggle("active")
+  }
   return (
     <div className='Topcontainer'>
       <div className="headercontainer">
@@ -10,17 +14,20 @@ function Header  ()  {
             <h1>PARABOLA</h1>
         </div>
         <div className="parabolanavigation">
-            <nav>
+           <IoMdMenu onClick={menutoggle}className='menuicon' />
+            <nav id='menyu'>
+              
                 <ul>
-                    <li>Katalog</li>
+                 
+                    <Link to="/">Katalog</Link>
                    <Link to="/register">Register</Link>
-                    <li>LogIn</li>
-                    <li>Satıcı</li>
-                    <Link to="/profile">Profile</Link>
+                   <Link to="/login">LogIn</Link>
+                     {/* <Link to="/seller">Satıcı</Link> */}
+                    <Link to="/profile">Profil</Link>
                    
                 </ul>
             </nav>
-        </div>
+        </div> 
       </div>
     </div>
   )
