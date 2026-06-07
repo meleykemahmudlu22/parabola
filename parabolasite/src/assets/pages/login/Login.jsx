@@ -6,59 +6,63 @@ import { notification } from "antd";
 import { Link, useNavigate } from 'react-router-dom'
 import Header from '../../components/Header/Header';
 import "./login.css"
+import { BASE_URL } from '../../config'  
 
-function Login  ()  {
-const dispatch=useDispatch()
-  const{loading,error}=useSelector((state)=>state.authlogin)
+function Login() {
+  const dispatch = useDispatch()
+  const { loading, error } = useSelector((state) => state.authlogin)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
-  const handleLogin= async (e)=>{
+  const handleLogin = async (e) => {
     e.preventDefault()
     dispatch(loginStart())
- if(!email|| !password){
-notification.error({
-  message:"xeta",
-  description:"email ve ya password bos ola bilmez"
-})
-return
- }
-    try {
-      let {data}= await axios.get("https://678e58c7a64c82aeb1200f8c.mockapi.io/new")
-     const user= data.find(item=>item.email===email && item.password===password)
-     if(user){
-      dispatch(loginSucces(user))
 
-      notification.success({
-        message:"ugurlu oldu",
-        description:`xos geldin ${user.email}`
+    if (!email || !password) {
+      notification.error({
+        message: "Xəta",
+        description: "Email və ya şifrə boş ola bilməz!"
       })
-      navigate("/profile")
-     }else{
-      dispatch(loginFailure("email ve sifre yanlisdir"))
-       notification.error({
-      message: "Login uğursuz",
-      description: "Email və ya şifrə səhvdir!"
-    })
-     }
+      return
+    }
+
+    try {
+      
+      let { data } = await axios.post(`${BASE_URL}/login`, { email, password })
+
+      if (data && data.email) {
+        dispatch(loginSucces(data))
+
+        notification.success({
+          message: "Uğurlu oldu",
+          description: `Xoş gəldin ${data.email}`
+        })
+
+        navigate("/profile")
+      } else {
+        dispatch(loginFailure("Email və şifrə yanlışdır"))
+        notification.error({
+          message: "Login uğursuz",
+          description: "Email və ya şifrə səhvdir!"
+        })
+      }
     } catch (error) {
       dispatch(loginFailure(error.message))
       notification.error({
-    message: "Server xətası",
-    description: error.message
-  })
+        message: "Server xətası",
+        description: error.message
+      })
     }
   }
 
   return (
- <>
+    <>
       <Header />
       <div className='FormLoginContainer'>
         <form onSubmit={handleLogin}>
           <div className="FormLoginText">
             <h2>Log into Parabola</h2>
-           
           </div>
           <div className="formLogindiv">
             <div className="LabelLoginForm">
@@ -83,11 +87,11 @@ return
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
+
             <div className="forgotpassword">
               <Link to="/forgot">
-               <button>Forgot Password ?</button>
+                <button type="button">Forgot Password ?</button>
               </Link>
-             
             </div>
 
             <div className="formbtn">
@@ -95,22 +99,18 @@ return
                 {loading ? "loading..." : "Login"}
               </button>
             </div>
-          
-          <div className="createaccount">
-            <Link to="/register">
-             <button>Create New Account</button>
-            </Link>
-           
-          </div>
 
-           
+            <div className="createaccount">
+              <Link to="/register">
+                <button type="button">Create New Account</button>
+              </Link>
+            </div>
           </div>
 
           {error && <p className="error-text">{error}</p>}
         </form>
       </div>
     </>
-   
   )
 }
 

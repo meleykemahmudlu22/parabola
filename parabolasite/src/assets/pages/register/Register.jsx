@@ -6,6 +6,7 @@ import { registerFailure, registerStart, registerSucces } from '../../../feature
 import { useNavigate } from 'react-router-dom';
 import './register.css'
 import Header from '../../components/Header/Header';
+import { BASE_URL } from '../config'   
 
 function Register() {
   const dispatch = useDispatch()
@@ -38,8 +39,8 @@ function Register() {
 
     dispatch(registerStart())
     try {
-   
-      let users = await axios.get("https://678e58c7a64c82aeb1200f8c.mockapi.io/new")
+  
+      let users = await axios.get(`${BASE_URL}/users`)
       let exists = users.data.find(u => u.email === email)
 
       if (exists) {
@@ -51,13 +52,11 @@ function Register() {
         return
       }
 
-    
+   
       let { data } = await axios.post(
-        "https://678e58c7a64c82aeb1200f8c.mockapi.io/new",
+        `${BASE_URL}/users`,
         { email, password }
       )
-
-
 
       dispatch(registerSucces(data))
 
